@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -382,34 +381,35 @@ table tr:nth-child(4) td:nth-child(5) {
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        
-        // 🔹 CHARGER les données depuis Firebase
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                const data = doc.data();
-                
-                document.querySelectorAll("td[id]").forEach(td => {
-                    if (data[td.id]) {
-                        td.innerText = data[td.id];
-                    }
-                });
-            }
-        });
-        
-        // 🔹 SAUVEGARDE en temps réel
-        document.querySelectorAll("td[id]").forEach(td => {
-            td.addEventListener("input", function() {
-                
-                docRef.set({
-                    [td.id]: td.innerText
-                }, { merge: true });
-                
+    
+    // CHARGER
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            const data = doc.data();
+            
+            document.querySelectorAll("td[id]").forEach(td => {
+                td.innerText = data[td.id] || "";
             });
+        }
+    });
+    
+    // SAUVEGARDE UNIQUE
+    document.addEventListener("input", function() {
+        
+        let data = {};
+        
+        document.querySelectorAll("td[id]").forEach(td => {
+            data[td.id] = td.innerText;
         });
+        
+        docRef.set(data);
         
     });
+    
+});
 </script>
 </body>
 </html>
+
 
 
