@@ -431,6 +431,52 @@ table tr:nth-child(4) td:nth-child(5) {
     const db = firebase.firestore();
     const docRef = db.collection("planning").doc("global");
 </script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQ-1AeD23RxNc_V_slLbL50HLDUvpADdo",
+        authDomain: "planning-vertex.firebaseapp.com",
+        projectId: "planning-vertex",
+        storageBucket: "planning-vertex.appspot.com",
+        messagingSenderId: "322442531285",
+        appId: "1:322442531285:web:5514622c8f16243346ad5c"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const docRef = db.collection("planning").doc("global");
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // 🔹 Charger les données
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                
+                document.querySelectorAll("td[id]").forEach(td => {
+                    if (data[td.id]) {
+                        td.innerText = data[td.id];
+                    }
+                });
+            }
+        });
+        
+        // 🔹 Sauvegarde en temps réel
+        document.querySelectorAll("td[id]").forEach(td => {
+            td.addEventListener("input", function() {
+                
+                let data = {};
+                
+                document.querySelectorAll("td[id]").forEach(cell => {
+                    data[cell.id] = cell.innerText;
+                });
+                
+                docRef.set(data);
+            });
+        });
+        
+    });
+</script>
 </body>
 </html>
 
