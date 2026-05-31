@@ -366,6 +366,24 @@ table tr:nth-child(4) td:nth-child(5) {
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
+        // 🔹 Charger les données sauvegardées
+        document.querySelectorAll("td").forEach(td => {
+            let saved = localStorage.getItem(td.id);
+            if (saved) {
+                td.innerText = saved;
+            }
+            
+            // 🔹 Sauvegarde à chaque modification
+            td.addEventListener("input", function() {
+                localStorage.setItem(td.id, td.innerText);
+            });
+        });
+        
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
         // 🔹 Charger depuis Firebase
         docRef.get().then((doc) => {
             if (doc.exists) {
