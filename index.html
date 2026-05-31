@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Planning de programmation</title>
+<div class="legend">
+    <div class="legend-item">
+        <span class="box blue"></span> Physique
+    </div>
+    
+    <div class="legend-item">
+        <span class="box yellow"></span> Mathématiques
+    </div>
+    
+    <div class="legend-item">
+        <span class="box violet"></span> Biologie
+    </div>
+</div>
 
 <style>
 body {
@@ -167,6 +180,35 @@ table tr:nth-child(4) td:nth-child(5) {
     background-color: blue;
     color: white;
 } 
+.legend {
+    position: fixed;
+    left: 20px;
+    top: 120px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    font-family: Arial, sans-serif;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.box {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.blue { background: blue; }
+.yellow { background: yellow; }
+.violet { background: violet; }
 </style>
 </head>
 
@@ -363,52 +405,7 @@ table tr:nth-child(4) td:nth-child(5) {
         document.getElementById("adminBox").style.display = "block";
         document.getElementById("lockBtn").style.display = "none";
     } </script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script>
-    const firebaseConfig = {
-        apiKey: "TA_CLÉ",
-        authDomain: "planning-vertex.firebaseapp.com",
-        projectId: "planning-vertex",
-        storageBucket: "planning-vertex.appspot.com",
-        messagingSenderId: "322442531285",
-        appId: "1:322442531285:web:5514622c8f16243346ad5c"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const docRef = db.collection("planning").doc("global");
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        
-        const cells = document.querySelectorAll("td[id]");
-        
-        // 🔽 CHARGEMENT
-        docRef.get().then((doc) => {
-            if (doc.exists) {
-                const data = doc.data();
-                
-                cells.forEach(td => {
-                    td.innerText = data[td.id] || "";
-                });
-            }
-        });
-        
-        // 🔽 SAUVEGARDE
-        cells.forEach(td => {
-            td.addEventListener("input", function() {
-                
-                docRef.set({
-                    [td.id]: td.innerText
-                }, { merge: true });
-                
-            });
-        });
-        
-    });
-</script>
+
 </body>
 </html>
-
 
