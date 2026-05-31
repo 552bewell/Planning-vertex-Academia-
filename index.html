@@ -381,35 +381,34 @@ table tr:nth-child(4) td:nth-child(5) {
 </script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-    
-    // CHARGER
-    docRef.get().then((doc) => {
-        if (doc.exists) {
-            const data = doc.data();
-            
-            document.querySelectorAll("td[id]").forEach(td => {
-                td.innerText = data[td.id] || "";
-            });
-        }
-    });
-    
-    // SAUVEGARDE UNIQUE
-    document.addEventListener("input", function() {
         
-        let data = {};
+        const cells = document.querySelectorAll("td[id]");
         
-        document.querySelectorAll("td[id]").forEach(td => {
-            data[td.id] = td.innerText;
+        // 🔽 CHARGEMENT
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                
+                cells.forEach(td => {
+                    td.innerText = data[td.id] || "";
+                });
+            }
         });
         
-        docRef.set(data);
+        // 🔽 SAUVEGARDE
+        cells.forEach(td => {
+            td.addEventListener("input", function() {
+                
+                docRef.set({
+                    [td.id]: td.innerText
+                }, { merge: true });
+                
+            });
+        });
         
     });
-    
-});
 </script>
 </body>
 </html>
-
 
 
